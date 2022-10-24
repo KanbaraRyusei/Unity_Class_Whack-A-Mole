@@ -330,11 +330,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60116f00b94c82d4a87857201ecd7ba4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _prefab: {fileID: 11058861225779493, guid: 0f9d1dc5655404247a4e7f2a62208d92, type: 3}
+  _plane: {fileID: 11058861225779493, guid: 0f9d1dc5655404247a4e7f2a62208d92, type: 3}
+  _capsule: {fileID: 6759198927254386187, guid: 3c61743452b8b6d4698bee2f4f7d6d07, type: 3}
   _width: 3
   _height: 3
   _interval: 4
-  _generatePosision: {x: -3, y: -3, z: 0}
+  _capsulePosition: 1
+  _generatePosition: {x: -3, y: -3, z: 0}
 --- !u!4 &2004886906
 Transform:
   m_ObjectHideFlags: 0

@@ -5,7 +5,11 @@ using UnityEngine;
 public class Generator : MonoBehaviour
 {
     [SerializeField]
-    private GameObject _prefab;
+    private GameObject _plane;
+
+    [SerializeField]
+    [Header("モグラ")]
+    private GameObject _capsule;
 
     [SerializeField]
     [Header("横の数")]
@@ -20,8 +24,12 @@ public class Generator : MonoBehaviour
     private int _interval;
 
     [SerializeField]
+    [Header("モグラの初期位置")]
+    private int _capsulePosition;
+
+    [SerializeField]
     [Header("生成を開始するポジション")]
-    private Vector3 _generatePosision;
+    private Vector3 _generatePosition;
 
     public void Generate()
     {
@@ -29,10 +37,11 @@ public class Generator : MonoBehaviour
         {
             for(int j = 0; j < _height; j++)
             {
-                Instantiate(_prefab, new Vector3(
-                    _generatePosision.x + i * _interval,
-                    _generatePosision.y + j * _interval,
-                    _generatePosision.z + 0), _prefab.transform.rotation);
+                var x = _generatePosition.x + i * _interval;
+                var y = _generatePosition.y + j * _interval;
+                var z = _generatePosition.z + 0;
+                Instantiate(_plane, new Vector3(x, y, z), _plane.transform.rotation);
+                Instantiate(_capsule, new Vector3(x, y, z + _capsulePosition), _capsule.transform.rotation);
             }
         }
     }
