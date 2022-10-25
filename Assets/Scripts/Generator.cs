@@ -31,6 +31,9 @@ public class Generator : MonoBehaviour
     [Header("生成を開始するポジション")]
     private Vector3 _generatePosition;
 
+    List<GameObject> _planes = new List<GameObject>();
+    List<MoleController> _moles = new List<MoleController>();
+
     public void Generate()
     {
         for(int i = 0; i < _width; i++)
@@ -40,9 +43,37 @@ public class Generator : MonoBehaviour
                 var x = _generatePosition.x + i * _interval;
                 var y = _generatePosition.y + j * _interval;
                 var z = _generatePosition.z + 0;
-                Instantiate(_plane, new Vector3(x, y, z), _plane.transform.rotation);
-                Instantiate(_capsule, new Vector3(x, y, z + _capsulePosition), _capsule.transform.rotation);
+                var plane = Instantiate(_plane, new Vector3(x, y, z), _plane.transform.rotation);
+                var mole = Instantiate(_capsule, new Vector3(x, y, z + _capsulePosition), _capsule.transform.rotation);
+                _planes.Add(plane);
+                if(mole.TryGetComponent(out MoleController moleController))
+                {
+                    _moles.Add(moleController);
+                }
             }
         }
+    }
+
+    public bool AllDelete()
+    {
+        if(_planes.Count == 0 || _moles.Count == 0)
+        {
+            return false;
+        }
+        _planes.ForEach(x => DestroyImmediate(x));
+        _moles.ForEach(x => DestroyImmediate(x.gameObject));
+        _planes.Clear();
+        _moles.Clear();
+        return true;
+    }
+
+    public bool PropertyUpdate()
+    {
+        if (_moles.Count == 0) return false;
+        var mole = _capsule.GetComponent<MoleController>();
+        _moles.ForEach(x => x.SetData(mole.Point, mole.MovePosition,
+                mole.UpTime, mole.DownTime, mole.WhackDownTime,
+                mole.AppearTime, mole.IntervalUpperLimit, mole.IntervalLowerLimit));
+        return true;
     }
 }

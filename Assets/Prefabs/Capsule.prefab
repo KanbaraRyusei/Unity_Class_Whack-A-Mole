@@ -133,7 +133,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _point: 1
+  _movePosition:
+    _start: 0
+    _end: 1
   _upTime: 1
-  _upInterval: 1
-  _appearTime: 0
-  _interval: 0
+  _downTime: 0.5
+  _whackDownTime: 0.2
+  _appearTime: 3
+  _intervalUpperLimit: 6
+  _intervalLowerLimit: 1
