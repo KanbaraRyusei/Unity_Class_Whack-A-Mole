@@ -13,14 +13,6 @@ public class MoleController : MonoBehaviour, IPointerClickHandler
     private int _point;
 
     [SerializeField]
-    [Header("‚¹‚èã‚ª‚éŠÔ")]
-    private int _upTime;
-
-    [SerializeField]
-    [Header("ã‚ª‚éŠÔŠu")]
-    private int _upInterval;
-
-    [SerializeField]
     [Header("o‚Ä‚¢‚éŠÔ")]
     private int _appearTime;
 
@@ -32,10 +24,25 @@ public class MoleController : MonoBehaviour, IPointerClickHandler
     private bool _isAppear = false;
     private float _timer = 0f;
     private bool _stopTimer = true;
+    private float _disAppearTimer = 0f;
+    private Animator _anim;
+
+    private void Awake()
+    {
+        _anim = GetComponent<Animator>();
+    }
 
     private void Update()
     {
-        if (_stopTimer) return;
+        if (_stopTimer)
+        {
+            if(_interval < _disAppearTimer)
+            {
+                UpMole();
+            }
+            _disAppearTimer += Time.deltaTime;
+            return;
+        }
         if (_appearTime < _timer)
         {
             DownMole();
@@ -46,19 +53,20 @@ public class MoleController : MonoBehaviour, IPointerClickHandler
     public void UpMole()
     {
         _stopTimer = false;
-        transform.Translate(new Vector3(0, 0, _upInterval));
+        _anim.Play("Up");
     }
 
     public void DownMole()
     {
         _stopTimer = true;
-        transform.Translate(new Vector3(0, 0, _upInterval));
+        _timer = 0f;
+        _disAppearTimer = 0f;
+        _anim.Play("Down");
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
         _wasHit = true;
-        _timer = 0f;
         DownMole();
         ScoreManager.AddScore(_point);
     }
